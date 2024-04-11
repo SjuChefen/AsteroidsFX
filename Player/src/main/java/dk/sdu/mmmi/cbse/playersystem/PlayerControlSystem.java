@@ -26,8 +26,8 @@ public class PlayerControlSystem implements IEntityProcessingService {
                 player.setRotation(player.getRotation() + 5);
             }
             if (gameData.getKeys().isDown(GameKeys.UP)) {
-                double changeX = Math.cos(Math.toRadians(player.getRotation()));
-                double changeY = Math.sin(Math.toRadians(player.getRotation()));
+                double changeX = Math.cos(Math.toRadians(player.getRotation()))*2;
+                double changeY = Math.sin(Math.toRadians(player.getRotation()))*2;
                 player.setX(player.getX() + changeX);
                 player.setY(player.getY() + changeY);
             }
@@ -38,19 +38,19 @@ public class PlayerControlSystem implements IEntityProcessingService {
             }
 
             if (player.getX() < 0) {
-                player.setX(1);
+                player.setX(2);
             }
 
             if (player.getX() > gameData.getDisplayWidth()) {
-                player.setX(gameData.getDisplayWidth() - 1);
+                player.setX(gameData.getDisplayWidth() - 2);
             }
 
             if (player.getY() < 0) {
-                player.setY(1);
+                player.setY(2);
             }
 
             if (player.getY() > gameData.getDisplayHeight()) {
-                player.setY(gameData.getDisplayHeight() - 1);
+                player.setY(gameData.getDisplayHeight() - 2);
             }
 
 
