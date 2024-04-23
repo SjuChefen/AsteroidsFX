@@ -8,12 +8,7 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ServiceLoader;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static java.util.stream.Collectors.toList;
@@ -33,20 +28,19 @@ public class Main extends Application {
     private final World world = new World();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private Pane gameWindow;
-    private int currentEntityAmount;
-
 
     public static void main(String[] args) {
         launch(Main.class);
     }
 
+
     @Override
-    public void start(Stage window) throws Exception {
-        Text text = new Text(10, 20, "Destroyed asteroids: 0");
+    public void start(Stage window) {
+
+        Text text = new Text(10, 20, "Destroyed asteroids: ");
         gameWindow = new Pane();
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         gameWindow.getChildren().add(text);
-        currentEntityAmount = world.getEntities().size();
 
         Scene scene = new Scene(gameWindow);
         scene.setOnKeyPressed(event -> {
@@ -113,42 +107,40 @@ public class Main extends Application {
 
     private void update() {
 
-        // Update
         for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
             entityProcessorService.process(gameData, world);
         }
-        if (currentEntityAmount < world.getEntities().size()) {
-            for (Entity entity : world.getEntities()) {
-                if (polygons.get(entity) == null) {
-                    Polygon polygon = new Polygon(entity.getPolygonCoordinates());
-                    polygons.put(entity, polygon);
-                    gameWindow.getChildren().add(polygon);
-                }
-            }
+        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+            postEntityProcessorService.process(gameData, world);
         }
-        if (currentEntityAmount > world.getEntities().size()) {
-            for (Map.Entry<Entity, Polygon> polygon : polygons.entrySet()) {
-                if (world.getEntity(polygon.getKey().getID()) == null) {
-                    System.out.println("null found");
-                    gameWindow.getChildren().remove(polygon.getValue());
-                    polygons.remove(polygon.getKey());
-                }
+        for (Entity entity : world.getEntities()) {
+            if (polygons.get(entity) == null) {
+                Polygon polygon = new Polygon(entity.getPolygonCoordinates());
+                polygons.put(entity, polygon);
+                gameWindow.getChildren().add(polygon);
             }
         }
 
-        currentEntityAmount = world.getEntities().size();
-//        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
-//            postEntityProcessorService.process(gameData, world);
-//        }
+        for (Map.Entry<Entity, Polygon> polygon : polygons.entrySet()) {
+            if (world.getEntity(polygon.getKey().getID()) == null) {
+                gameWindow.getChildren().remove(polygon.getValue());
+                polygons.remove(polygon.getKey());
+            }
+        }
+
     }
 
     private void draw() {
         for (Entity entity : world.getEntities()) {
             Polygon polygon = polygons.get(entity);
+            if (polygon == null) {
+                System.out.println("polygon missing");
+            }
             if (polygon != null) {
                 polygon.setTranslateX(entity.getX());
                 polygon.setTranslateY(entity.getY());
                 polygon.setRotate(entity.getRotation());
+
             }
         }
     }

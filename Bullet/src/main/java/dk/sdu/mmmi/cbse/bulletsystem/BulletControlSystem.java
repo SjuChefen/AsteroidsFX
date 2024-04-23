@@ -33,6 +33,9 @@ public class BulletControlSystem implements IEntityProcessingService, BulletSPI 
             if (bullet.getY() > gameData.getDisplayHeight()) {
                 world.removeEntity(bullet);
             }
+            if (bullet.isCollided()){
+                world.removeEntity(bullet);
+            }
         }
     }
 

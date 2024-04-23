@@ -45,6 +45,9 @@ public class EnemyControlSystem implements IEntityProcessingService {
             if (enemy.getY() > gameData.getDisplayHeight() + 2) {
                 enemy.setY(-1);
             }
+            if (enemy.isCollided()){
+                world.removeEntity(enemy);
+            }
         }
     }
 
