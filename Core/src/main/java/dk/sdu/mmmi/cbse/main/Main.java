@@ -21,13 +21,14 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 public class Main extends Application {
 
     private final GameData gameData = new GameData();
     private final World world = new World();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private Pane gameWindow;
+    private Game game;
 
     public static void main(String[] args) {
         launch(Main.class);
@@ -36,6 +37,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage window) {
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(ModuleConfig.class);
+
+        for (String beanName : ctx.getBeanDefinitionNames()) {
+            System.out.println(beanName);
+        }
+        game = ctx.getBean(Game.class);
+
 
         Text text = new Text(10, 20, "Destroyed asteroids: ");
         gameWindow = new Pane();
@@ -74,7 +82,7 @@ public class Main extends Application {
         });
 
         // Lookup all Game Plugins using ServiceLoader
-        for (IGamePluginService iGamePlugin : getPluginServices()) {
+        for (IGamePluginService iGamePlugin : game.getGamePluginServices()) {
             iGamePlugin.start(gameData, world);
         }
         for (Entity entity : world.getEntities()) {
@@ -107,10 +115,10 @@ public class Main extends Application {
 
     private void update() {
 
-        for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
+        for (IEntityProcessingService entityProcessorService : game.getEntityProcessingServices()) {
             entityProcessorService.process(gameData, world);
         }
-        for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
+        for (IPostEntityProcessingService postEntityProcessorService : game.getPostEntityProcessingServices()) {
             postEntityProcessorService.process(gameData, world);
         }
         for (Entity entity : world.getEntities()) {
@@ -143,17 +151,5 @@ public class Main extends Application {
 
             }
         }
-    }
-
-    private Collection<? extends IGamePluginService> getPluginServices() {
-        return ServiceLoader.load(IGamePluginService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-    }
-
-    private Collection<? extends IEntityProcessingService> getEntityProcessingServices() {
-        return ServiceLoader.load(IEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
-    }
-
-    private Collection<? extends IPostEntityProcessingService> getPostEntityProcessingServices() {
-        return ServiceLoader.load(IPostEntityProcessingService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
 }
