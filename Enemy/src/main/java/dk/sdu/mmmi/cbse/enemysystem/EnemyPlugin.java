@@ -35,6 +35,7 @@ public class EnemyPlugin implements IGamePluginService {
         for (Entity e : world.getEntities()) {
             if (e.getClass() == Enemy.class) {
                 world.removeEntity(e);
+                world.addEntity(spawnEnemy(gameData));
             }
         }
     }
