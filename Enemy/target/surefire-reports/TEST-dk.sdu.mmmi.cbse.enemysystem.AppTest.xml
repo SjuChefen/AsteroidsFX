@@ -16,7 +16,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Users\madsb\.jdks\openjdk-19.0.1\bin"/>
-    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter C:\Users\madsb\AppData\Local\Temp\surefire17322874658408347860 2024-05-12T12-37-31_354-jvmRun1 surefire-20240512123739171_1tmp surefire_0-20240512123739171_2tmp"/>
+    <property name="sun.java.command" value="org.apache.maven.surefire.booter.ForkedBooter C:\Users\madsb\AppData\Local\Temp\surefire8838208774747257718 2024-05-14T09-28-28_113-jvmRun1 surefire-20240514092836612_1tmp surefire_0-20240514092836612_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\madsb\Projects\AsteroidsFX\Enemy\target\test-classes;C:\Users\madsb\.m2\repository\junit\junit\3.8.1\junit-3.8.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -62,5 +62,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="63.0"/>
   </properties>
-  <testcase name="testApp" classname="dk.sdu.mmmi.cbse.enemysystem.AppTest" time="0.002"/>
+  <testcase name="testApp" classname="dk.sdu.mmmi.cbse.enemysystem.AppTest" time="0.003"/>
 </testsuite>

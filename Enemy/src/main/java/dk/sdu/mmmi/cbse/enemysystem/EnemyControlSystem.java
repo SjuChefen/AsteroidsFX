@@ -11,8 +11,13 @@ import java.util.ServiceLoader;
 
 import static java.util.stream.Collectors.toList;
 /**
- * This class is responsible for controlling the behavior of enemies in the game.
+ * This class is responsible for controlling the behavior of the enemy in the game.
  * It implements the IEntityProcessingService interface.
+ *
+ * Operation Contract:
+ * - process(GameData, World): This operation is called every frame to update the enemy's state. It is responsible for handling enemy movement and updating the enemy's position and rotation accordingly.
+ *   Precondition: The gameData and world parameters must not be null.
+ *   Postcondition: The enemy's state is updated based on game rules.
  */
 public class EnemyControlSystem implements IEntityProcessingService{
     /**

@@ -8,6 +8,15 @@ import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 /**
  * This class is responsible for managing bullets in the game.
  * It implements the IGamePluginService interface.
+ *
+ * Operation Contract:
+ * - start(GameData, World): This operation is called when the game starts. It is responsible for initializing the bullet entity and adding it to the world.
+ *   Precondition: The gameData and world parameters must not be null.
+ *   Postcondition: A new bullet entity is added to the world.
+ *
+ * - stop(GameData, World): This operation is called when the game stops. It is responsible for removing the bullet entity from the world.
+ *   Precondition: The gameData and world parameters must not be null.
+ *   Postcondition: The bullet entity is removed from the world.
  */
 public class BulletPlugin implements IGamePluginService {
 

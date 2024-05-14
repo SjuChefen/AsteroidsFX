@@ -9,6 +9,15 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 /**
  * This class is responsible for controlling the behavior of bullets in the game.
  * It implements the IEntityProcessingService and BulletSPI interfaces.
+ *
+ * Operation Contract:
+ * - process(GameData, World): This operation is called every frame to update the bullet's state. It is responsible for handling bullet movement and removing the bullet if it is out of the game display or has collided with something.
+ *   Precondition: The gameData and world parameters must not be null.
+ *   Postcondition: The bullet's state is updated based on game rules.
+ *
+ * - createBullet(Entity, GameData): This operation is responsible for creating a new bullet entity. It sets the polygon coordinates, radius, x and y coordinates, and rotation of the bullet.
+ *   Precondition: The shooter and gameData parameters must not be null.
+ *   Postcondition: A new bullet entity is created and returned.
  */
 public class BulletControlSystem implements IEntityProcessingService, BulletSPI {
     /**

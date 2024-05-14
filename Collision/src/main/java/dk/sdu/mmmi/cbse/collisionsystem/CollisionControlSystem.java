@@ -7,6 +7,11 @@ import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 /**
  * This class is responsible for controlling the collision behavior in the game.
  * It implements the IPostEntityProcessingService interface.
+ *
+ * Operation Contract:
+ * - process(GameData, World): This operation is called every frame to check for collisions between entities. It is responsible for setting the collided status of entities that are colliding.
+ *   Precondition: The gameData and world parameters must not be null.
+ *   Postcondition: The collided status of entities that are colliding is set to true.
  */
 public class CollisionControlSystem implements IPostEntityProcessingService {
     /**

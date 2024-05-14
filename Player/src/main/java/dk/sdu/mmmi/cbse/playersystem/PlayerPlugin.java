@@ -7,6 +7,15 @@ import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 /**
  * This class is responsible for managing the player in the game.
  * It implements the IGamePluginService interface.
+ *
+ * Operation Contract:
+ * - start(GameData, World): This operation is called when the game starts. It is responsible for initializing the player entity and adding it to the world.
+ *   Precondition: The gameData and world parameters must not be null.
+ *   Postcondition: A new player entity is added to the world.
+ *
+ * - stop(GameData, World): This operation is called when the game stops. It is responsible for removing the player entity from the world.
+ *   Precondition: The gameData and world parameters must not be null.
+ *   Postcondition: The player entity is removed from the world.
  */
 public class PlayerPlugin implements IGamePluginService {
 

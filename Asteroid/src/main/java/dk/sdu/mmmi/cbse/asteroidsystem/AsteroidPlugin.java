@@ -5,8 +5,21 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 /**
- * This class is responsible for creating and managing asteroids in the game.
+ * This class is responsible for managing asteroids in the game.
  * It implements the IGamePluginService interface.
+ *
+ * Operation Contract:
+ * - start(GameData, World): This operation is called when the game starts. It is responsible for initializing the asteroid entity and adding it to the world.
+ *   Precondition: The gameData and world parameters must not be null.
+ *   Postcondition: A new asteroid entity is added to the world.
+ *
+ * - stop(GameData, World): This operation is called when the game stops. It is responsible for removing the asteroid entity from the world.
+ *   Precondition: The gameData and world parameters must not be null.
+ *   Postcondition: The asteroid entity is removed from the world.
+ *
+ * - createAsteroid(int, double, double): This operation is responsible for creating a new asteroid entity. It sets the polygon coordinates, radius, x and y coordinates, and rotation of the asteroid.
+ *   Precondition: The size parameter must be a positive integer, and the xCoord and yCoord parameters must be valid coordinates within the game display.
+ *   Postcondition: A new asteroid entity is created and returned.
  */
 public class AsteroidPlugin implements IGamePluginService {
     public AsteroidPlugin() {

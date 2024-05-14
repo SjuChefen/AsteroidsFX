@@ -8,6 +8,11 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 /**
  * This class is responsible for controlling the behavior of asteroids in the game.
  * It implements the IEntityProcessingService interface.
+ *
+ * Operation Contract:
+ * - process(GameData, World): This operation is called every frame to update the asteroid's state. It is responsible for handling asteroid movement, updating the asteroid's position and rotation accordingly, and managing asteroid collisions.
+ *   Precondition: The gameData and world parameters must not be null.
+ *   Postcondition: The asteroid's state is updated based on game rules.
  */
 public class AsteroidControlSystem implements IEntityProcessingService {
 

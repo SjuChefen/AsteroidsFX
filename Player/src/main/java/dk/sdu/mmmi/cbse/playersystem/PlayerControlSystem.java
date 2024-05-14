@@ -14,6 +14,11 @@ import static java.util.stream.Collectors.toList;
 /**
  * This class is responsible for controlling the behavior of the player in the game.
  * It implements the IEntityProcessingService interface.
+ *
+ * Operation Contract:
+ * - process(GameData, World): This operation is called every frame to update the player's state. It is responsible for handling player input and updating the player's position and rotation accordingly.
+ *   Precondition: The gameData and world parameters must not be null.
+ *   Postcondition: The player's state is updated based on player input and game rules.
  */
 public class PlayerControlSystem implements IEntityProcessingService {
     /**
