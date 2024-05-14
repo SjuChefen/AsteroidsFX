@@ -5,10 +5,23 @@ import dk.sdu.mmmi.cbse.common.data.GameData;
 import dk.sdu.mmmi.cbse.common.data.World;
 import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 
+/**
+ * This class is responsible for controlling the behavior of asteroids in the game.
+ * It implements the IEntityProcessingService interface.
+ */
 public class AsteroidControlSystem implements IEntityProcessingService {
 
     AsteroidPlugin plugin = new AsteroidPlugin();
 
+    /**
+     * This method is responsible for processing the game data and world state for asteroids.
+     * It checks the number of asteroids in the world and creates new ones if needed.
+     * It also updates the position and rotation of each asteroid based on its current state.
+     * If an asteroid has collided with something, it is removed from the world and two new smaller asteroids are created in its place.
+     *
+     * @param gameData The current state of the game.
+     * @param world The current state of the world.
+     */
 
     @Override
     public void process(GameData gameData, World world) {

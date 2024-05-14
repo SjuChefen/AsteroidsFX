@@ -10,9 +10,20 @@ import java.util.Collection;
 import java.util.ServiceLoader;
 
 import static java.util.stream.Collectors.toList;
-
-
+/**
+ * This class is responsible for controlling the behavior of enemies in the game.
+ * It implements the IEntityProcessingService interface.
+ */
 public class EnemyControlSystem implements IEntityProcessingService{
+    /**
+     * This method is responsible for processing the game data and world state for enemies.
+     * It updates the position of each enemy based on its current state.
+     * If an enemy has collided with something, it is removed from the world.
+     * If an enemy decides to shoot, it creates a bullet entity.
+     *
+     * @param gameData The current state of the game.
+     * @param world The current state of the world.
+     */
     @Override
     public void process(GameData gameData, World world) {
         for (Entity enemy : world.getEntities(Enemy.class)) {
@@ -49,7 +60,12 @@ public class EnemyControlSystem implements IEntityProcessingService{
             }
         }
     }
-
+    /**
+     * This method retrieves all the BulletSPI services available.
+     * It uses the ServiceLoader to load all the BulletSPI implementations.
+     *
+     * @return A collection of BulletSPI services.
+     */
     private Collection<? extends BulletSPI> getBulletSPIs() {
         return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }

@@ -11,10 +11,20 @@ import java.util.Collection;
 import java.util.ServiceLoader;
 
 import static java.util.stream.Collectors.toList;
-
-
+/**
+ * This class is responsible for controlling the behavior of the player in the game.
+ * It implements the IEntityProcessingService interface.
+ */
 public class PlayerControlSystem implements IEntityProcessingService {
-
+    /**
+     * This method is responsible for processing the game data and world state for the player.
+     * It updates the position of the player based on the current game keys state.
+     * If the player has collided with something, it is removed from the world.
+     * If the space key is pressed, it creates a bullet entity.
+     *
+     * @param gameData The current state of the game.
+     * @param world The current state of the world.
+     */
     @Override
     public void process(GameData gameData, World world) {
 
@@ -58,7 +68,12 @@ public class PlayerControlSystem implements IEntityProcessingService {
 
         }
     }
-
+    /**
+     * This method retrieves all the BulletSPI services available.
+     * It uses the ServiceLoader to load all the BulletSPI implementations.
+     *
+     * @return A collection of BulletSPI services.
+     */
     private Collection<? extends BulletSPI> getBulletSPIs() {
         return ServiceLoader.load(BulletSPI.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
