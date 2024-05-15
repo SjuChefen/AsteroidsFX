@@ -19,7 +19,7 @@ public class Entity implements Serializable {
     }
 
 
-    public void setPolygonCoordinates(double... coordinates) {
+    public void setPolygonCoordinates(double... coordinates ) {
         this.polygonCoordinates = coordinates;
     }
 
@@ -29,7 +29,7 @@ public class Entity implements Serializable {
 
 
     public void setX(double x) {
-        this.x = x;
+        this.x =x;
     }
 
     public double getX() {
@@ -68,5 +68,4 @@ public class Entity implements Serializable {
     public void setCollided(boolean collided) {
         isCollided = collided;
     }
-
 }

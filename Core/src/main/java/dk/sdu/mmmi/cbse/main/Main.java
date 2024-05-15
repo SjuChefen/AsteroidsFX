@@ -8,6 +8,11 @@ import dk.sdu.mmmi.cbse.common.services.IEntityProcessingService;
 import dk.sdu.mmmi.cbse.common.services.IGamePluginService;
 import dk.sdu.mmmi.cbse.common.services.IPostEntityProcessingService;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -28,6 +33,8 @@ public class Main extends Application {
     private final World world = new World();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private Pane gameWindow;
+    private Text text;
+    private int score;
 
     public static void main(String[] args) {
         launch(Main.class);
@@ -36,8 +43,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage window) {
-
-        Text text = new Text(10, 20, "Destroyed asteroids: ");
+        this.score = getScore();
+        text = new Text(10, 20, "Your points: "+ score);
         gameWindow = new Pane();
         gameWindow.setPrefSize(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         gameWindow.getChildren().add(text);
@@ -106,6 +113,7 @@ public class Main extends Application {
     }
 
     private void update() {
+        updateScore();
 
         for (IEntityProcessingService entityProcessorService : getEntityProcessingServices()) {
             entityProcessorService.process(gameData, world);
@@ -113,6 +121,7 @@ public class Main extends Application {
         for (IPostEntityProcessingService postEntityProcessorService : getPostEntityProcessingServices()) {
             postEntityProcessorService.process(gameData, world);
         }
+
         for (Entity entity : world.getEntities()) {
             if (polygons.get(entity) == null) {
                 Polygon polygon = new Polygon(entity.getPolygonCoordinates());
@@ -127,14 +136,13 @@ public class Main extends Application {
                 polygons.remove(polygon.getKey());
             }
         }
-
     }
 
     private void draw() {
         for (Entity entity : world.getEntities()) {
             Polygon polygon = polygons.get(entity);
             if (polygon == null) {
-                System.out.println("polygon missing");
+                System.out.println("womp womp");
             }
             if (polygon != null) {
                 polygon.setTranslateX(entity.getX());
@@ -144,7 +152,37 @@ public class Main extends Application {
             }
         }
     }
+    private void updateScore(){
+        this.score = getScore();
+        gameWindow.getChildren().remove(text);
+        text = new Text(10, 20, "Your points: " + score);
+        gameWindow.getChildren().add(text);
+    }
+    private int getScore() {
+        URL url = null;
+        int score;
+        try {
+            url = new URL("http://localhost:8080/GetScore");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
 
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+
+            score = Integer.parseInt(String.valueOf(response));
+
+            connection.disconnect();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return score;
+    }
     private Collection<? extends IGamePluginService> getPluginServices() {
         return ServiceLoader.load(IGamePluginService.class).stream().map(ServiceLoader.Provider::get).collect(toList());
     }
